@@ -14,17 +14,18 @@ window.addEventListener('load', function(){
             this.enemyTimer = 0;
         }
         update(deltaTime){
+            this.enemies = this.enemies.filter(object => !object.markedForDeletion);
             if (this.enemyTimer > this.enemyInterval){
                 this.#addNewEnemy();
                 this.enemyTimer = 0;
+                console.log(this.enemies);
             } else {
                 this.enemyTimer += deltaTime;
             }
-            console.log(deltaTime);
 
             this.enemies.forEach(object => object.update());
         }
-        draw(){
+        draw(ctx){
             this.enemies.forEach(object => object.draw());
         }
         #addNewEnemy(){
@@ -39,9 +40,11 @@ window.addEventListener('load', function(){
             this.y = Math.random() * this.game.height;
             this.width = 100;
             this.height = 100;
+            this.markedForDeletion = false;
         }
         update(){
             this.x--;
+            if (this.x < 0 - this.width) this.markedForDeletion = true;
         }
         draw(){
             ctx.fillRect(this.x, this.y, this.width, this.height);

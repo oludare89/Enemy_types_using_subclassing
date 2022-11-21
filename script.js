@@ -10,10 +10,17 @@ window.addEventListener('load', function(){
             this.width = width;
             this.height = height;
             this.enemies = [];
-            this.#addNewEnemy();
-            console.log(this.enemies);
+            this.enemyInterval = 400;
+            this.enemyTimer = 0;
         }
         update(){
+            if (this.enemyTimer > this.enemyInterval){
+                this.#addNewEnemy();
+                this.enemyTimer = 0;
+            } else {
+                this.enemyTimer++;
+            }
+
             this.enemies.forEach(object => object.update());
         }
         draw(){

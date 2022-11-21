@@ -10,16 +10,17 @@ window.addEventListener('load', function(){
             this.width = width;
             this.height = height;
             this.enemies = [];
-            this.enemyInterval = 400;
+            this.enemyInterval = 1000;
             this.enemyTimer = 0;
         }
-        update(){
+        update(deltaTime){
             if (this.enemyTimer > this.enemyInterval){
                 this.#addNewEnemy();
                 this.enemyTimer = 0;
             } else {
-                this.enemyTimer++;
+                this.enemyTimer += deltaTime;
             }
+            console.log(deltaTime);
 
             this.enemies.forEach(object => object.update());
         }
@@ -53,10 +54,10 @@ window.addEventListener('load', function(){
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         const deltaTime = timeStamp - lastTime;
         lastTime = timeStamp;
-        game.update();
+        game.update(deltaTime);
         game.draw();
         requestAnimationFrame(animate);
     };
 
-    animate();
+    animate(0);
 });

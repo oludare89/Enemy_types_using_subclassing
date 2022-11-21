@@ -30,6 +30,9 @@ window.addEventListener('load', function(){
         }
         #addNewEnemy(){
             this.enemies.push(new Worm(this));
+            this.enemies.sort(function(a,b){
+                return a.y - b.y;
+            });
         }
     }
 
@@ -39,7 +42,7 @@ window.addEventListener('load', function(){
             this.markedForDeletion = false;
         }
         update(deltaTime){
-            this.x -= this.speed * deltaTime;
+            this.x -= this.vx * deltaTime;
             if (this.x < 0 - this.width) this.markedForDeletion = true;
         }
         draw(){
@@ -57,7 +60,7 @@ window.addEventListener('load', function(){
             this.x = this.game.width;
             this.y = Math.random() * this.game.height;
             this.image = worm;
-            this.speed = Math.random() * 0.1 + 0.1;
+            this.vx = Math.random() * 0.1 + 0.1;
         }
     }
 

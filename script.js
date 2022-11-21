@@ -29,17 +29,13 @@ window.addEventListener('load', function(){
             this.enemies.forEach(object => object.draw());
         }
         #addNewEnemy(){
-            this.enemies.push(new Enemy(this));
+            this.enemies.push(new Worm(this));
         }
     }
 
     class Enemy {
         constructor(game){
             this.game = game;
-            this.x = this.game.width;
-            this.y = Math.random() * this.game.height;
-            this.width = 100;
-            this.height = 100;
             this.markedForDeletion = false;
         }
         update(){
@@ -47,7 +43,19 @@ window.addEventListener('load', function(){
             if (this.x < 0 - this.width) this.markedForDeletion = true;
         }
         draw(){
-            ctx.fillRect(this.x, this.y, this.width, this.height);
+            ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+        }
+    }
+
+    class Worm extends Enemy {
+        constructor(game){
+            super(game);
+            this.x = this.game.width;
+            this.y = Math.random() * this.game.height;
+            this.width = 100;
+            this.height = 100;
+            this.image = worm;
+            console.log(this.image);
         }
     }
 

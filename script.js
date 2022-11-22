@@ -10,9 +10,9 @@ window.addEventListener('load', function(){
             this.width = width;
             this.height = height;
             this.enemies = [];
-            this.enemyInterval = 1000;
+            this.enemyInterval = 500;
             this.enemyTimer = 0;
-            this.enemyTypes = ['worm', 'ghost'];
+            this.enemyTypes = ['worm', 'ghost', 'spider'];
         }
         update(deltaTime){
             this.enemies = this.enemies.filter(object => !object.markedForDeletion);
@@ -25,16 +25,17 @@ window.addEventListener('load', function(){
 
             this.enemies.forEach(object => object.update(deltaTime));
         }
-        draw(ctx){
-            this.enemies.forEach(object => object.draw());
+        draw(){
+            this.enemies.forEach(object => object.draw(this.ctx));
         }
         #addNewEnemy(){
             const randomEnemy = this.enemyTypes[Math.floor(Math.random() * this.enemyTypes.length)];
             if (randomEnemy == 'worm') this.enemies.push(new Worm(this));
             else if (randomEnemy == 'ghost') this.enemies.push(new Ghost(this));
-            this.enemies.sort(function(a,b){
-                return a.y - b.y;
-            });
+            else if (randomEnemy == 'spider') this.enemies.push(new Spider(this));
+            //this.enemies.sort(function(a,b){
+                //return a.y - b.y;
+            //});
         }
     }
 
@@ -47,7 +48,7 @@ window.addEventListener('load', function(){
             this.x -= this.vx * deltaTime;
             if (this.x < 0 - this.width) this.markedForDeletion = true;
         }
-        draw(){
+        draw(ctx){
             ctx.drawImage(this.image, 0, 0, this.spriteWidth, this.spriteHeight, this.x, this.y, this.width, this.height);
         }
     }
@@ -77,6 +78,41 @@ window.addEventListener('load', function(){
             this.y = Math.random() * this.game.height * 0.6;
             this.image = ghost;
             this.vx = Math.random() * 0.2 + 0.1;
+            this.angle = 0;
+            this.curve = Math.random() * 3;
+        }
+        update(deltaTime){
+            super.update(deltaTime);
+            this.y += Math.sin(this.angle) * this.curve;
+            this.angle += 0.04;
+        }
+        draw(){
+            ctx.save();
+            ctx.globalAlpha = 0.7;
+            super.draw(ctx);
+            ctx.restore();
+        }
+    }
+
+    class Spider extends Enemy {
+        constructor(game){
+            super(game);
+            this.spriteWidth = 310;
+            this.spriteHeight = 175;
+            this.width = this.spriteWidth * 0.5;
+            this.height = this.spriteHeight * 0.5;
+            this.x = Math.random() * this.game.width;
+            this.y = 0 - this.height;
+            this.image = spider;
+            this.vx = 0;
+            this.vy = 1;
+        }
+        update(deltaTime){
+            super.update(deltaTime);
+            this.y += this.vy;
+        }
+        draw(ctx){
+            super.draw(ctx);
         }
     }
 

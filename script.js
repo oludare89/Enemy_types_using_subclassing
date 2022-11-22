@@ -27,6 +27,7 @@ window.addEventListener('load', function(){
         }
         draw(){
             this.enemies.forEach(object => object.draw(this.ctx));
+            console.log(this.enemies);
         }
         #addNewEnemy(){
             const randomEnemy = this.enemyTypes[Math.floor(Math.random() * this.enemyTypes.length)];
@@ -105,13 +106,14 @@ window.addEventListener('load', function(){
             this.y = 0 - this.height;
             this.image = spider;
             this.vx = 0;
-            this.vy = 1;
+            this.vy = Math.random() * 0.1 + 0.1;
             this.maxLength = Math.random() * this.game.height;
         }
         update(deltaTime){
             super.update(deltaTime);
-            this.y += this.vy;
+            this.y += this.vy * deltaTime;
             if (this.y > this.maxLength) this.vy *= -1;
+            if (this.y < 0 - this.height) this.markedForDeletion = true;
         }
         draw(ctx){
             super.draw(ctx);

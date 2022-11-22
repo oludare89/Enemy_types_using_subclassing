@@ -60,7 +60,7 @@ window.addEventListener('load', function(){
             this.width = this.spriteWidth * 0.5;
             this.height = this.spriteHeight * 0.5;
             this.x = this.game.width;
-            this.y = Math.random() * this.game.height;
+            this.y = this.game.height - this.height;
             this.image = worm;
             this.vx = Math.random() * 0.1 + 0.1;
         }
@@ -74,7 +74,7 @@ window.addEventListener('load', function(){
             this.width = this.spriteWidth * 0.5;
             this.height = this.spriteHeight * 0.5;
             this.x = this.game.width;
-            this.y = Math.random() * this.game.height;
+            this.y = Math.random() * this.game.height * 0.6;
             this.image = ghost;
             this.vx = Math.random() * 0.2 + 0.1;
         }

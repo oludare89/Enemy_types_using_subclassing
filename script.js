@@ -106,10 +106,12 @@ window.addEventListener('load', function(){
             this.image = spider;
             this.vx = 0;
             this.vy = 1;
+            this.maxLength = Math.random() * this.game.height;
         }
         update(deltaTime){
             super.update(deltaTime);
             this.y += this.vy;
+            if (this.y > this.maxLength) this.vy *= -1;
         }
         draw(ctx){
             super.draw(ctx);

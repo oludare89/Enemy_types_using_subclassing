@@ -12,13 +12,13 @@ window.addEventListener('load', function(){
             this.enemies = [];
             this.enemyInterval = 1000;
             this.enemyTimer = 0;
+            this.enemyTypes = ['worm', 'ghost'];
         }
         update(deltaTime){
             this.enemies = this.enemies.filter(object => !object.markedForDeletion);
             if (this.enemyTimer > this.enemyInterval){
                 this.#addNewEnemy();
                 this.enemyTimer = 0;
-                console.log(this.enemies);
             } else {
                 this.enemyTimer += deltaTime;
             }
@@ -29,7 +29,9 @@ window.addEventListener('load', function(){
             this.enemies.forEach(object => object.draw());
         }
         #addNewEnemy(){
-            this.enemies.push(new Worm(this));
+            const randomEnemy = this.enemyTypes[Math.floor(Math.random() * this.enemyTypes.length)];
+            if (randomEnemy == 'worm') this.enemies.push(new Worm(this));
+            else if (randomEnemy == 'ghost') this.enemies.push(new Ghost(this));
             this.enemies.sort(function(a,b){
                 return a.y - b.y;
             });
